@@ -19,7 +19,7 @@ public class SearchTweet {
         ResponseList<twitter4j.Status> statuses = twitter.getHomeTimeline();
         System.out.println("Showing foot timeline.");
         for (twitter4j.Status status : statuses) {
-            System.out.println(status.getCreatedAt()+" - "+status.getUser().getName() + " : " +
+            System.out.println(status.getCreatedAt()+" - "+status.getUser().getName() +" - "+ status.getUser().getLocation() +" : " +
                     status.getText());
 
 
