@@ -36,6 +36,10 @@ public class SearchTweet {
                 if(!queryRes.hasNext()){
                     break;
                 }
+
+                if (i>900){
+                    Thread.sleep(900000);
+                }
                 query = queryRes.nextQuery();
 
             }
