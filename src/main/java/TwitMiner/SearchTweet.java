@@ -1,7 +1,6 @@
 package TwitMiner;
 
 import twitter4j.*;
-import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.*;
 import java.lang.String;
@@ -9,38 +8,37 @@ import java.lang.String;
 public class SearchTweet {
 
     private static BufferedWriter bw = null;
+    private static int i = 0;
 
     public static void main(String args[]) throws Exception {
+        Query query = new Query("#Presidentielle2017");
+
+        Account account = new Account();
+        Twitter twitter = account.getTwitter();
+
+        System.out.println("Showing foot timeline.");
+
         try {
             bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data.csv")));
-            Query query = new Query("#Presidentielle2017");
 
-            ConfigurationBuilder cb = new ConfigurationBuilder();
-            cb.setDebugEnabled(true)
-                    .setOAuthConsumerKey("l6H0HBRCkTxWAjhRsfk97bWdk")
-                    .setOAuthConsumerSecret("mvoAw2MWXaEfww565llBStV5cofzJrUbJCQMjt4RCXeXoS4MHg")
-                    .setOAuthAccessToken("833975933606453250-4tpuplmCfo9fw2ma4aq3ypq2FWWwOAc")
-                    .setOAuthAccessTokenSecret("VzwWyodmL0Tgn21CGtEAN1baqyKsHD3boHipDTN7coEIU");
-
-            TwitterFactory tf = new TwitterFactory(cb.build());
-            Twitter twitter = tf.getInstance();
-
-            QueryResult soumsoum=twitter.search(query);
-
-            System.out.println("Showing foot timeline.");
-
-            for (twitter4j.Status status : soumsoum.getTweets()) {
-                System.out.println(status.getCreatedAt() + " - " + status.getUser().getName() + " - " + status.getUser().getLocation() + " : " +
-                        status.getText());
-                String tweet = status.getCreatedAt() + " - " + status.getUser().getName() + " - " + status.getUser().getLocation() + " : " +
-                        status.getText();
-                bw.write(tweet);
-                bw.newLine();
-                bw.flush();
-
-
+            while (true) {
+                QueryResult queryRes = twitter.search(query);
+                for (twitter4j.Status status : queryRes.getTweets()) {
+                    System.out.println(status.getCreatedAt() + " - " + status.getUser().getName() + " - " + status.getUser().getLocation() + " : " +
+                            status.getText().replaceAll(" ", "\";\"").replaceAll("\\s", "") + "\"\n");
+                    String tweet = status.getCreatedAt() + " - " + status.getUser().getName() + " - " + status.getUser().getLocation() + " : " +
+                            status.getText().replaceAll(" ", "\";\"").replaceAll("\\s", "") + "\"\n";
+                    ++i;
+                    bw.write(tweet);
+                    bw.newLine();
+                    bw.flush();
+                }
+                if(!queryRes.hasNext()){
+                    break;
+                }
+                query = queryRes.nextQuery();
             }
-            bw.close();
+            System.out.println("Y a " + i + " tweet");
 
         } catch (FileNotFoundException e){
             System.out.println("Le fichier n'est pas trouvé ou innexistant");
