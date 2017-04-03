@@ -3,12 +3,13 @@ package TwitMiner;
 
 import java.io.*;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class CsvToTrans {
 
     private static BufferedWriter bw = null;
     private static BufferedReader rw = null;
-    private static Map<Integer, String> stockWord = null;
+    private static Map<Integer, String> stockWord = new TreeMap();
     private static int key=1;
     private static String ligne;
 
@@ -23,17 +24,17 @@ public class CsvToTrans {
                 for (String word : parts){
                     boolean isExisting = false;
 
-                    for (final Map.Entry<Integer,String> entry : stockWord.entrySet()){
+                    for (Map.Entry<Integer,String> entry : stockWord.entrySet()){
                         if (word.equals(entry.getValue()))
                             isExisting =true;
                     }
                     if (!isExisting){
                         stockWord.put(key, word);
+                        System.out.print(stockWord.get(key) + '\n');
                         ++key;
                     }
                 }
             }
-
 
         } catch (FileNotFoundException e){
             e.printStackTrace();
