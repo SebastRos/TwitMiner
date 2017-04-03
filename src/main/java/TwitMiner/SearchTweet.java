@@ -9,6 +9,7 @@ public class SearchTweet {
 
     private static BufferedWriter bw = null;
     private static int i = 0;
+    private static int t=0;
 
     public static void main(String args[]) throws Exception {
         Query query = new Query("#Presidentielle2017");
@@ -29,6 +30,7 @@ public class SearchTweet {
                     String tweet = status.getCreatedAt() + " - " + status.getUser().getName() + " - " + status.getUser().getLocation() + " : " +
                             status.getText().replaceAll(" ", "\";\"").replaceAll("\\s", "") + "\"\n";
                     ++i;
+                    ++t;
                     bw.write(tweet);
                     bw.flush();
                 }
@@ -36,9 +38,14 @@ public class SearchTweet {
                     break;
                 }
 
-                /*if (i>900){
-                    Thread.sleep(900000);
-                }*/
+                if (t>10001){
+                    break;
+                }
+                if (i>200){
+                    System.out.print("\n"+"En pause"+"\n");
+                    Thread.sleep(300000);
+                    i=0;
+                }
                 query = queryRes.nextQuery();
 
             }
