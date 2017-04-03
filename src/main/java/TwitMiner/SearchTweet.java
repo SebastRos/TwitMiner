@@ -30,16 +30,15 @@ public class SearchTweet {
                             status.getText().replaceAll(" ", "\";\"").replaceAll("\\s", "") + "\"\n";
                     ++i;
                     bw.write(tweet);
-                    bw.newLine();
                     bw.flush();
                 }
                 if(!queryRes.hasNext()){
                     break;
                 }
 
-                if (i>900){
+                /*if (i>900){
                     Thread.sleep(900000);
-                }
+                }*/
                 query = queryRes.nextQuery();
 
             }

@@ -16,7 +16,6 @@ public class CsvToTrans {
 
     public CsvToTrans() {
         try{
-            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data.trans")));
             rw = new BufferedReader(new InputStreamReader(new FileInputStream("data.csv")));
 
             while ((ligne = rw.readLine())!=null){
@@ -44,7 +43,46 @@ public class CsvToTrans {
 
     }
 
+    public void remplirTrans(){
+        try {
+            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data.trans")));
+            rw = new BufferedReader(new InputStreamReader(new FileInputStream("data.csv")));
+            while ((ligne = rw.readLine())!=null){
+                String[] parts = ligne.split(";");
+                for (String word : parts){
+                    int key_word=0;
+
+                    for (Map.Entry<Integer,String> entry : stockWord.entrySet()){
+                        if (word.equals(entry.getValue()))
+                            key_word=entry.getKey();
+                    }
+
+                    bw.write(key_word+ " ");
+
+
+                }
+                bw.newLine();
+                bw.flush();
+
+
+            }
+            bw.close();
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static Map<Integer, String> getStockWord() {
+        return stockWord;
+    }
+
     public static void main(String[] args) {
         CsvToTrans test = new CsvToTrans();
+        System.out.print("Le char 24 est : "+test.getStockWord().get(24));
+        test.remplirTrans();
     }
+
+
 }
