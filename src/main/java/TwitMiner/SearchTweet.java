@@ -1,22 +1,19 @@
 package TwitMiner;
 
 import twitter4j.*;
-
 import twitter4j.conf.ConfigurationBuilder;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.lang.String;
 
 public class SearchTweet {
 
-    FileOutputStream fos= null;
-
+    private static BufferedWriter bw = null;
 
     public static void main(String args[]) throws Exception {
         try {
-            new FileOutputStream(new File("/Users/seb/Desktop/TwitMiner/data.csv"));
-            Query query = new Query("#TPMPLaGrandeRassrah2");
+            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("data.csv")));
+            Query query = new Query("#Presidentielle2017");
 
             ConfigurationBuilder cb = new ConfigurationBuilder();
             cb.setDebugEnabled(true)
@@ -35,11 +32,18 @@ public class SearchTweet {
             for (twitter4j.Status status : soumsoum.getTweets()) {
                 System.out.println(status.getCreatedAt() + " - " + status.getUser().getName() + " - " + status.getUser().getLocation() + " : " +
                         status.getText());
+                String tweet = status.getCreatedAt() + " - " + status.getUser().getName() + " - " + status.getUser().getLocation() + " : " +
+                        status.getText();
+                bw.write(tweet);
+                bw.newLine();
+                bw.flush();
 
 
             }
+            bw.close();
 
         } catch (FileNotFoundException e){
+            System.out.println("Le fichier n'est pas trouvé ou innexistant");
             e.printStackTrace();
 
         }
