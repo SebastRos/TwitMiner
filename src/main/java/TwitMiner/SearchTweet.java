@@ -37,6 +37,7 @@ public class SearchTweet {
                     break;
                 }
                 query = queryRes.nextQuery();
+
             }
             System.out.println("Y a " + i + " tweet");
 
