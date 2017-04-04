@@ -38,14 +38,8 @@ public class SearchTweet {
                     break;
                 }
 
-                if (t>10001){
-                    break;
-                }
-                if (i>200){
-                    System.out.print("\n"+"En pause"+"\n");
-                    Thread.sleep(300000);
-                    i=0;
-                }
+
+
                 query = queryRes.nextQuery();
 
             }
