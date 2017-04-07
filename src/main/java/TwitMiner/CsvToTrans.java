@@ -17,7 +17,7 @@ public class CsvToTrans {
     public CsvToTrans() {
         try{
             rw = new BufferedReader(new InputStreamReader(new FileInputStream("data.csv")));
-
+            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("map.csv")));
             while ((ligne = rw.readLine())!=null){
                 String[] parts = ligne.split(";");
                 for (String word : parts){
@@ -30,6 +30,9 @@ public class CsvToTrans {
                     if (!isExisting){
                         stockWord.put(key, word);
                         System.out.print(stockWord.get(key) + '\n');
+                        bw.write(key+","+word);
+                        bw.newLine();
+                        bw.flush();
                         ++key;
                     }
                 }
@@ -80,7 +83,6 @@ public class CsvToTrans {
 
     public static void main(String[] args) {
         CsvToTrans test = new CsvToTrans();
-        System.out.print("Le char 24 est : "+test.getStockWord().get(24));
         test.remplirTrans();
     }
 
