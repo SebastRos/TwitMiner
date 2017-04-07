@@ -45,4 +45,9 @@ public class OutToCsv {
         }
 
     }
+
+    public static void main(String[] args) {
+        OutToCsv test = new OutToCsv();
+    }
+
 }
