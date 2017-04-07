@@ -12,7 +12,7 @@ public class OutToCsv {
 
     public OutToCsv() {
         try{
-            rw = new BufferedReader(new InputStreamReader(new FileInputStream("data.out")));
+            rw = new BufferedReader(new InputStreamReader(new FileInputStream("dataOut.csv")));
             rw2 = new BufferedReader(new InputStreamReader(new FileInputStream("map.csv")));
             bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("result.csv")));
 
