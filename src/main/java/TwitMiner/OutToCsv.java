@@ -31,7 +31,7 @@ public class OutToCsv {
                     if (stockWordReversed.containsKey(parts[i])) {
                         bw.write(stockWordReversed.get(parts[i])+ " ");
                         System.out.println(stockWordReversed.get(parts[i])+ " " +parts[parts.length-1]);
-                        
+
                     }
                 }
                 //bw.write(parts[parts.length-1]);
