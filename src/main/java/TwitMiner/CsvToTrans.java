@@ -62,7 +62,6 @@ public class CsvToTrans {
 
                     bw.write(key_word+ " ");
 
-
                 }
                 bw.newLine();
                 bw.flush();
