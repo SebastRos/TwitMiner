@@ -1,5 +1,6 @@
 package TwitMiner;
 
+import java.awt.peer.SystemTrayPeer;
 import java.io.*;
 import java.util.Map;
 
@@ -19,16 +20,17 @@ public class OutToCsv {
             while ((ligne = rw.readLine())!=null){
                 String[] parts = ligne.split(" ");
                 for(int i = 0;i < parts.length-1; ++i){
-
-                    String word="";
                     String def;
                     while ((def = rw2.readLine())!=null){
                         String[] definition = def.split(",");
+
                         if (parts[i].equals(definition[0])) {
-                            word = definition[1];
+
+                            bw.write(definition[1]+ " " +parts[parts.length-1]);
+                            System.out.println(definition[1]+ " " +parts[parts.length-1]);
+                            break;
                         }
                     }
-                    bw.write(word+ " ");
 
                 }
                 bw.newLine();
