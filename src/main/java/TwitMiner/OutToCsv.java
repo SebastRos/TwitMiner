@@ -18,18 +18,18 @@ public class OutToCsv {
 
             while ((ligne = rw.readLine())!=null){
                 String[] parts = ligne.split(" ");
-                for(int i = 0;i < parts.length; ++i){
-                    if (i != parts.length-1){
-                        String word="";
-                        String def;
-                        while ((def = rw2.readLine())!=null){
-                            String[] definition = def.split(",");
-                            if (parts[i].equals(definition[0])) {
-                                word = definition[1];
-                            }
+                for(int i = 0;i < parts.length-1; ++i){
+
+                    String word="";
+                    String def;
+                    while ((def = rw2.readLine())!=null){
+                        String[] definition = def.split(",");
+                        if (parts[i].equals(definition[0])) {
+                            word = definition[1];
                         }
-                        bw.write(word+ " ");
                     }
+                    bw.write(word+ " ");
+
                 }
                 bw.newLine();
                 bw.flush();
