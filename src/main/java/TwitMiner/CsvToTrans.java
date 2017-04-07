@@ -2,14 +2,16 @@ package TwitMiner;
 
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class CsvToTrans {
 
-    private static BufferedWriter bw = null;
+    private static ObjectOutputStream oos = null;
     private static BufferedReader rw = null;
-    private static Map<Integer, String> stockWord = new TreeMap();
+    private static BufferedWriter bw = null;
+    private static Map<String, Integer> stockWord = new HashMap();
     private static int key=1;
     private static String ligne;
 
@@ -17,26 +19,18 @@ public class CsvToTrans {
     public CsvToTrans() {
         try{
             rw = new BufferedReader(new InputStreamReader(new FileInputStream("data.csv")));
-            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("map.csv")));
+            oos = new ObjectOutputStream( new FileOutputStream("map.csv"));
             while ((ligne = rw.readLine())!=null){
                 String[] parts = ligne.split(";");
                 for (String word : parts){
-                    boolean isExisting = false;
-
-                    for (Map.Entry<Integer,String> entry : stockWord.entrySet()){
-                        if (word.equals(entry.getValue()))
-                            isExisting =true;
-                    }
-                    if (!isExisting){
-                        stockWord.put(key, word);
-                        System.out.print(stockWord.get(key) + '\n');
-                        bw.write(key+","+word);
-                        bw.newLine();
-                        bw.flush();
+                    if (!stockWord.containsKey(word)){
+                        stockWord.put(word, key);
                         ++key;
                     }
                 }
             }
+
+            oos.writeObject(stockWord);
 
         } catch (FileNotFoundException e){
             e.printStackTrace();
@@ -55,9 +49,9 @@ public class CsvToTrans {
                 for (String word : parts){
                     int key_word=0;
 
-                    for (Map.Entry<Integer,String> entry : stockWord.entrySet()){
-                        if (word.equals(entry.getValue()))
-                            key_word=entry.getKey();
+                    for (Map.Entry<String,Integer> entry : stockWord.entrySet()){
+                        if (word.equals(entry.getKey()))
+                            key_word=entry.getValue();
                     }
 
                     bw.write(key_word+ " ");
@@ -76,9 +70,6 @@ public class CsvToTrans {
         }
     }
 
-    public static Map<Integer, String> getStockWord() {
-        return stockWord;
-    }
 
     public static void main(String[] args) {
         CsvToTrans test = new CsvToTrans();

@@ -2,7 +2,9 @@ package TwitMiner;
 
 import java.awt.peer.SystemTrayPeer;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OutToCsv {
 
@@ -11,42 +13,46 @@ public class OutToCsv {
     private static BufferedReader rw2 = null;
     private String ligne;
 
+    private static Map<String, Integer> stockWord = new HashMap();
+
     public OutToCsv() {
         try{
             rw = new BufferedReader(new InputStreamReader(new FileInputStream("dataOut.csv")));
-            rw2 = new BufferedReader(new InputStreamReader(new FileInputStream("map.csv")));
             bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("result.csv")));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("map.csv"));
+            stockWord = (Map<String, Integer>) ois.readObject();
+            Map<Integer, String> stockWordReversed = stockWord.entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
             while ((ligne = rw.readLine())!=null){
                 String[] parts = ligne.split(" ");
                 for(int i = 0;i < parts.length-1; ++i){
-                    String def;
-                    while ((def = rw2.readLine())!=null){
-                        String[] definition = def.split(",");
 
-                        if (parts[i].equals(definition[0])) {
-
-                            bw.write(definition[1]+ " " +parts[parts.length-1]);
-                            System.out.println(definition[1]+ " " +parts[parts.length-1]);
-                            break;
-                        }
+                    if (stockWordReversed.containsKey(parts[i])) {
+                        bw.write(stockWordReversed.get(parts[i])+ " ");
+                        System.out.println(stockWordReversed.get(parts[i])+ " " +parts[parts.length-1]);
+                        
                     }
-
                 }
-                bw.newLine();
-                bw.flush();
+                //bw.write(parts[parts.length-1]);
             }
 
-
-
-
-        } catch (FileNotFoundException e){
+            bw.newLine();
+            bw.flush();
+        }catch (FileNotFoundException e){
             e.printStackTrace();
         } catch (IOException e){
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
+
+
+
     }
+
+
 
     public static void main(String[] args) {
         OutToCsv test = new OutToCsv();
