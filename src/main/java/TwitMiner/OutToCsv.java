@@ -39,7 +39,7 @@ public class OutToCsv {
                     }
 
                 }
-                bw.write(" "+parts[parts.length-1]);
+                bw.write(parts[parts.length-1]);
                 bw.newLine();
 
             }
