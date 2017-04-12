@@ -12,7 +12,7 @@ public class SearchTweet {
     private static int t=0;
 
     public static void main(String args[]) throws Exception {
-        Query query = new Query("#SignOfTheTimes");
+        Query query = new Query("#ParleCommeLeSysteme");
 
         Account account = new Account();
         Twitter twitter = account.getTwitter();
