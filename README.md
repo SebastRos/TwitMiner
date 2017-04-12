@@ -1,6 +1,6 @@
 # TwitMiner
 
-Projet réalisé par Sébastien ROSPARS & Hugo VIDAL
+Projet réalisé par Sébastien ROSPARS & Hugo VIDAL jusqu'à l'étape 3
 
 Étapes à suivre :
   - Lancer SearchTweet en modifiant la recherche si vous le souhaitez
