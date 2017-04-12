@@ -19,7 +19,7 @@ public class DeleteUselessWord {
         try {
             rw = new BufferedReader(new InputStreamReader(new FileInputStream("motinutiles.csv")));
             while ((ligne = rw.readLine())!=null){
-                stockUselessWord.add(ligne);
+                stockUselessWord.add("\""+ligne+"\"");
             }
             for (String elt : stockUselessWord)
                 System.out.println(elt);
@@ -31,11 +31,34 @@ public class DeleteUselessWord {
         }
     }
 
+    public boolean isIn(String mot){
+        for (String elt : stockUselessWord)
+            if(mot.equals(elt)) return true;
+        return false;
+
+    }
     public void lireEtEnlever (){
         try {
+            bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("resultWithoutUselessWord.csv")));
             rw2 = new BufferedReader(new InputStreamReader(new FileInputStream("result.csv")));
-            while ((ligne = rw.readLine())!=null) {
+            System.out.println("Dossier check");
+            while ((ligne = rw2.readLine())!=null) {
                 String[] parts = ligne.split(" ");
+                Boolean isUselessWord =false;
+                System.out.println("Ligne");
+                for(int i = 0;i < parts.length-1; ++i){
+                    if (isIn(parts[i])) {
+                        System.out.println(parts[i]);
+                        isUselessWord = true;
+                        break;
+                    }
+                }
+                System.out.println(isUselessWord);
+                if (!isUselessWord){
+                    bw.write(ligne);
+                    bw.newLine();
+                    bw.flush();
+                }
 
             }
         } catch (FileNotFoundException e) {
@@ -47,6 +70,7 @@ public class DeleteUselessWord {
 
     public DeleteUselessWord() {
         this.remplirListWord();
+        this.lireEtEnlever();
     }
 
     public static void main(String[] args) {

@@ -25,13 +25,13 @@ public class OutToCsv {
                     .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
             while ((ligne = rw.readLine())!=null){
-                System.out.println("On est dans le while");
+
                 String[] parts = ligne.split(" ");
                 for(int i = 0;i < parts.length-1; ++i){
-                    System.out.println("On est dans le for");
+
                     int partKey = Integer.parseInt(parts[i]);
+
                     if (stockWordReversed.containsKey(partKey)) {
-                        System.out.println("On est dans le if");
 
                         bw.write(stockWordReversed.get(partKey)+ " ");
                         System.out.println(stockWordReversed.get(partKey)+ " " +parts[parts.length-1]);
