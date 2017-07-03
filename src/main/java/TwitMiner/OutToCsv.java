@@ -54,12 +54,7 @@ public class OutToCsv {
             e.printStackTrace();
         }
 
-
-
-
     }
-
-
 
     public static void main(String[] args) {
         OutToCsv test = new OutToCsv();
